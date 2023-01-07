@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapPage extends StatefulWidget {
   final LatLng latLong;
@@ -13,8 +14,16 @@ class MapPage extends StatefulWidget {
   State<MapPage> createState() => MapPageState();
 }
 
+
+
 class MapPageState extends State<MapPage> {
+
+  double lat = -9.7516469;
+  double long =  -36.666398;
+
   final Completer<GoogleMapController> _controller = Completer();
+
+
 
   late final CameraPosition _initialPosition = CameraPosition(
     target: widget.latLong,
