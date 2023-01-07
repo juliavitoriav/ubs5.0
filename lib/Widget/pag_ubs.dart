@@ -1,5 +1,11 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pmobp/Domain/var_ubs.dart';
+
+import '../Pages/map_page.dart';
 
 
 //FEITO POR JÚLIA VITORIA
@@ -38,10 +44,23 @@ class _PagUbsState extends State<PagUbs> {
               //   fallbackWidth: 85,
               //   color: Colors.grey,
               // ),
-
+               InkWell(
+          child: 
               buildImage(),
-
-              SizedBox(width: 8),
+          onTap: () async {
+            LatLng latLong = await _loadAddress();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return MapPage(latLong: latLong);
+                },
+              ),
+            );
+          },
+        ),
+             
+SizedBox(width: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -101,4 +120,15 @@ class _PagUbsState extends State<PagUbs> {
     return Container(
         height: 100, width: 100, child: Image.asset(widget.varUbs.urlimage));
   }
+
+  
+Future<LatLng> _loadAddress() async {
+    List<Location> locations = await locationFromAddress(widget.varUbs.end);
+    LatLng latLng = LatLng(locations[0].latitude, locations[0].longitude);
+
+    return latLng;
+  }
+
+
+
 }
